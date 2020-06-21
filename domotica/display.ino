@@ -1,33 +1,45 @@
 void drawFrame1(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int16_t y)
 {
-  // DISPLAY THE CURRENT INTESITY VALUE
-  display->setTextAlignment(TEXT_ALIGN_LEFT);
-  display->setFont(ArialMT_Plain_24);
-  display->drawString(x, y, "Instensity");
-
-  display->setTextAlignment(TEXT_ALIGN_RIGHT);
+  // DISPLAY THE CURRENT INTESITY AND POWER VALUES
+  display->setTextAlignment(TEXT_ALIGN_CENTER);
   display->setFont(ArialMT_Plain_16);
-  display->drawString(128 + x, 30 + y, IrmsTxt);
+  display->drawString(x+64, y, "Reading...");
+
+  // Title column
+  display->setTextAlignment(TEXT_ALIGN_LEFT);
+  display->drawString(5 + x, 20 + y, "Intensity");
+  display->drawString(5 + x, 40 + y, "Power");
+
+  // Values column
+  display->setTextAlignment(TEXT_ALIGN_RIGHT);
+  display->drawString(128 + x, 20 + y, itensityTxt);
+  display->drawString(128 + x, 40 + y, powerTxt);
 }
 
 void drawFrame2(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int16_t y)
 {
-  // DISPLAY THE CURRENT JOYSTICK VALUE
+  // DISPLAY THE CURRENT JOYSTICK AND BUTTONS VALUES
+
+  // Title column
   display->setTextAlignment(TEXT_ALIGN_LEFT);
   display->setFont(ArialMT_Plain_16);
-  display->drawString(x, y, "Joy");
-  display->drawString(x, 20 + y, "Btn A");
-  display->drawString(x, 40 + y, "Btn B");
+  display->drawString(5 + x, y, "Joystick");
+  display->drawString(5 + x, 20 + y, "Button A");
+  display->drawString(5 + x, 40 + y, "Button B");
 
+  // Value column
+  // Joystick
   display->setTextAlignment(TEXT_ALIGN_RIGHT);
   display->drawString(128 + x, y, joyTxt);
 
+  // Button A
   if(btnA){
     display->drawFastImage(110 + x, 25 + y, 8, 8, activeSymbol);
   } else {
     display->drawFastImage(110 + x, 25 + y, 8, 8, inactiveSymbol);
   }
 
+  // Button B
   if(btnB){
     display->drawFastImage(110 + x, 45 + y, 8, 8, activeSymbol);
   } else {

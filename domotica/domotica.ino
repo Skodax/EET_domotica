@@ -10,11 +10,10 @@ OLEDDisplayUi ui(&display);
 
 // CT SENSOR
 #include "EmonLib.h"
-#define CT_SENSOR_PIN 2
-#define CT_SENSOR_CAL 10
-EnergyMonitor emon1;
-double Irms = 0;                                          // Current intensity
-char IrmsTxt[10];                                         // Current intensity as text
+double intensity;
+double power;
+char itensityTxt[10];                                         // Current intensity as text
+char powerTxt[10];
 
 // JOYSTICK AND BUTTONS
 int joy;
@@ -28,8 +27,8 @@ void setup()
   Serial.println();
 
   setUpButtons();
+  setUpCTsensor();
   
-  emon1.current(CT_SENSOR_PIN, CT_SENSOR_CAL);             // Current: input pin, calibration.
   initDisplay();
 }
 
@@ -37,27 +36,29 @@ void loop()
 { 
   // DISPLAY
   int remainingTimeBudget = ui.update();
+  
   if (remainingTimeBudget > 0) {
     // You can do some work here
     // Don't do stuff if you are below your
     // time budget.
     
     // CT SENSOR
-    Irms = emon1.calcIrms(1480);                            // Calculate Irms only
-    sprintf(IrmsTxt,"%.2f A", Irms);
+    intensity = readIntensity();
+    power = getPower();
+    getIntensityText(itensityTxt);
+    getPowerText(powerTxt);
   
     // JOYSTICK AND BUTTONS
     joy = readJoystick();
     btnA = readBtnA();
     btnB = readBtnB();
-    
-    getJoystickTxt(joyTxt);
+    getJoystickTxt(joyTxt);                                 // Joystick value as text
+
+    // FRAME CONTROL
     if(joy == 1){
-      // Right transition
-      ui.nextFrame();      
+      ui.nextFrame();                                       // Right transition 
     }else if(joy == 4){
-      // Left transition
-      ui.previousFrame();
+      ui.previousFrame();                                   // Left transition
     }
   }
 }
