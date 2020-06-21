@@ -21,17 +21,17 @@ void drawFrame2(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int1
 
   display->setTextAlignment(TEXT_ALIGN_RIGHT);
   display->drawString(128 + x, y, joyTxt);
-  
+
   if(btnA){
-    display->drawString(128 + x, 20 + y, "<>");
+    display->drawFastImage(110 + x, 25 + y, 8, 8, activeSymbol);
   } else {
-    display->drawString(128 + x, 20 + y, "--");
+    display->drawFastImage(110 + x, 25 + y, 8, 8, inactiveSymbol);
   }
 
   if(btnB){
-    display->drawString(128 + x, 40 + y, "<>");
+    display->drawFastImage(110 + x, 45 + y, 8, 8, activeSymbol);
   } else {
-    display->drawString(128 + x, 40 + y, "--");
+    display->drawFastImage(110 + x, 45 + y, 8, 8, inactiveSymbol);
   }
 }
 

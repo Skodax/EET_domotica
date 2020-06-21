@@ -1,7 +1,7 @@
 // DISPLAY
-#include <Wire.h>               // Only needed for Arduino 1.6.5 and earlier
 #include "DFRobot_OLED12864.h"
 #include "OLEDDisplayUi.h"      // Include the UI lib
+#include "images.h"             // Custom images file
 
 // Initialize the OLED display using Wire library
 DFRobot_OLED12864  display(0x3c);
