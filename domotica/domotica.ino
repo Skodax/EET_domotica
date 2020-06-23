@@ -3,7 +3,7 @@
 #include <WiFiClient.h>
 #include <WebServer.h>
 #include <ESPmDNS.h>
-#include "config.h"             // Wifi credentials
+#include "config.dist.h"        // Wifi credentials
 WebServer server(80);
 
 // DISPLAY
