@@ -1,5 +1,22 @@
 void drawFrame1(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int16_t y)
 {
+  // WIFI STATUS
+  display->drawXbm(x + 34, y, WiFi_Logo_width, WiFi_Logo_height, WiFi_Logo_bits);
+  display->setTextAlignment(TEXT_ALIGN_CENTER);
+
+  if(WiFi.status() != WL_CONNECTED){
+    display->setFont(ArialMT_Plain_16);
+    display->drawString(x+64, y+37, "Connecting...");
+  } else {
+    display->setFont(ArialMT_Plain_10);
+    display->drawString(x+64, y+35, ssid);
+    display->drawString(x+64, y+45, WiFi.localIP().toString());
+  }
+  
+}
+
+void drawFrame2(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int16_t y)
+{
   // DISPLAY THE CURRENT INTESITY AND POWER VALUES
   display->setTextAlignment(TEXT_ALIGN_CENTER);
   display->setFont(ArialMT_Plain_16);
@@ -16,7 +33,7 @@ void drawFrame1(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int1
   display->drawString(128 + x, 40 + y, powerTxt);
 }
 
-void drawFrame2(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int16_t y)
+void drawFrame3(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int16_t y)
 {
   // DISPLAY THE CURRENT JOYSTICK AND BUTTONS VALUES
 
@@ -49,10 +66,10 @@ void drawFrame2(OLEDDisplay *display, OLEDDisplayUiState* state, int16_t x, int1
 
 // This array keeps function pointers to all frames
 // frames are the single views that slide in
-FrameCallback frames[] = { drawFrame1, drawFrame2};
+FrameCallback frames[] = { drawFrame1, drawFrame2, drawFrame3};
 
 // how many frames are there?
-int frameCount = 2;
+int frameCount = 3;
 
 void initDisplay(){
   // The ESP is capable of rendering 60fps in 80Mhz mode

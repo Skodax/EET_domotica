@@ -1,4 +1,4 @@
-#define JOYSTICK_PIN 27
+#define JOYSTICK_PIN 35
 #define BTNA_PIN 25
 #define BTNB_PIN 26
 int joyRaw, joyVal;

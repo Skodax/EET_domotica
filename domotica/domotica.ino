@@ -1,3 +1,11 @@
+// WEB SERVER (WIFI)
+#include <WiFi.h>
+#include <WiFiClient.h>
+#include <WebServer.h>
+#include <ESPmDNS.h>
+#include "config.h"             // Wifi credentials
+WebServer server(80);
+
 // DISPLAY
 #include "DFRobot_OLED12864.h"
 #include "OLEDDisplayUi.h"      // Include the UI lib
@@ -23,42 +31,41 @@ char joyTxt[10];
 void setup()
 {
   Serial.begin(115200);
-  Serial.println();
-  Serial.println();
 
   setUpButtons();
   setUpCTsensor();
   
   initDisplay();
+  ui.update();
+
+  setupWebServer();
 }
 
 void loop()
 { 
-  // DISPLAY
-  int remainingTimeBudget = ui.update();
-  
-  if (remainingTimeBudget > 0) {
-    // You can do some work here
-    // Don't do stuff if you are below your
-    // time budget.
-    
-    // CT SENSOR
-    intensity = readIntensity();
-    power = getPower();
-    getIntensityText(itensityTxt);
-    getPowerText(powerTxt);
-  
-    // JOYSTICK AND BUTTONS
-    joy = readJoystick();
-    btnA = readBtnA();
-    btnB = readBtnB();
-    getJoystickTxt(joyTxt);                                 // Joystick value as text
+ 
+  // WEB SERVER
+  server.handleClient();
 
-    // FRAME CONTROL
-    if(joy == 1){
-      ui.nextFrame();                                       // Right transition 
-    }else if(joy == 4){
-      ui.previousFrame();                                   // Left transition
-    }
+  // CT SENSOR
+  intensity = readIntensity();
+  power = getPower();
+  getIntensityText(itensityTxt);
+  getPowerText(powerTxt);
+
+  // JOYSTICK AND BUTTONS
+  joy = readJoystick();
+  btnA = readBtnA();
+  btnB = readBtnB();
+  getJoystickTxt(joyTxt);                                 // Joystick value as text
+
+  // FRAME CONTROL
+  if(joy == 1){
+    ui.nextFrame();                                       // Right transition 
+  }else if(joy == 4){
+    ui.previousFrame();                                   // Left transition
   }
+
+  // DISPLAY
+  ui.update();
 }

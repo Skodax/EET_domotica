@@ -1,4 +1,4 @@
-#define CT_SENSOR_PIN 2
+#define CT_SENSOR_PIN 34
 #define CT_SENSOR_CAL 1.957                               // Pendent to calibrate better
 #define CT_SENSOR_NUM_OF_SAMPLES 1480
 
